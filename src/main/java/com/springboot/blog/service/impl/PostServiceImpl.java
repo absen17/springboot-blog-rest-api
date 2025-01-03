@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class PostServiceImpl implements PostService {
 
     private PostRepository postRepository;
-
     private ModelMapper mapper;
 
     public PostServiceImpl(PostRepository postRepository,ModelMapper mapper) {
@@ -33,7 +32,6 @@ public class PostServiceImpl implements PostService {
         //convert dto to Entity;
         Post post = mapToEntity(postDto);
         Post newPost = postRepository.save(post);
-
         //convert entity to DTO
         PostDto postResponse = mapToDTO(newPost);
         return postResponse;
@@ -45,14 +43,11 @@ public class PostServiceImpl implements PostService {
         //Sorting by ASC & DESC dynamically
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
-
         //create Pageable instance
         Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
         Page<Post> posts = postRepository.findAll(pageable);
-
         //get content for page object
         List<Post> listOfPost = posts.getContent();
-
         List<PostDto> content =  listOfPost.stream().map(post -> mapToDTO(post))
                 .collect(Collectors.toList());
 
@@ -75,15 +70,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatedPost(PostDto postDto, long id) {
+    public PostDto updatePost(PostDto postDto, long id) {
         Post post =postRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException("Post","id",id));
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
         Post post1 = postRepository.save(post);
-        PostDto updatedDto = mapToDTO(post1);
-        return updatedDto;
+        PostDto updateDto = mapToDTO(post1);
+        return updateDto;
     }
 
     @Override
