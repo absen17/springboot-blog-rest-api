@@ -39,4 +39,20 @@ public class CategoryController {
     public ResponseEntity<List<CategoryDto>> getAllCategories(){
         return new ResponseEntity<>(categoryService.getAllCategories(),HttpStatus.OK);
     }
+
+    // Build Update Category Rest API
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("{id}")
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
+                                                       @PathVariable("id")Long categoryId){
+        return new ResponseEntity<>(categoryService.updateCategory(categoryDto,categoryId),HttpStatus.OK);
+    }
+
+    // Build Delete Category Rest API
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable("id") Long categoryId){
+        categoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>("Category deleted successfully!",HttpStatus.OK);
+    }
 }
