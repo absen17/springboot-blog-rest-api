@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Bean;
 						url = "https://absen17.github.io/absen/"
 				),
 				license = @License(
-						name = "Apache 2.0"
+						name = "Apache 3.9.6"
 				)
 		),
 		externalDocs = @ExternalDocumentation(
